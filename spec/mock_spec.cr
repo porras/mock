@@ -79,10 +79,10 @@ describe Mock do
     expect_raises(Spec::AssertionFailed) do
       my_instance.stub(:another_method)
       my_instance.another_method
-      my_instance.check_expectations # trick: this is what will be called in after_each but we want to check here
+      my_instance.check_expectations # trick: this is what will be called later but we want to check here
     end
 
-    Mock.registry.reset # so it doesn't fail there
+    Mock.reset # so it doesn't fail there
   end
 
   it "asserting method calls is sensitive to arguments" do
@@ -96,10 +96,10 @@ describe Mock do
     expect_raises(Spec::AssertionFailed) do
       my_instance.stub(:a_method_with_arguments)
       my_instance.a_method_with_arguments("bye")
-      my_instance.check_expectations # trick: this is what will be called in after_each but we want to check here
+      my_instance.check_expectations # trick: this is what will be called later but we want to check here
     end
 
-    Mock.registry.reset # so it doesn't fail there
+    Mock.reset # so it doesn't fail there
   end
 
   it "asserting method calls is sensitive to arguments (trickier example)" do
@@ -111,9 +111,9 @@ describe Mock do
 
     expect_raises do
       my_instance.a_method_with_arguments("bye").should eq("whatever argument")
-      my_instance.check_expectations # trick: this is what will be called in after_each but we want to check here
+      my_instance.check_expectations # trick: this is what will be called later but we want to check here
     end
 
-    Mock.registry.reset # so it doesn't fail there
+    Mock.reset # so it doesn't fail there
   end
 end
