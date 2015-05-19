@@ -1,10 +1,10 @@
 module Mock
   class Double
     def initialize(@name = :double, stubs = nil)
-      @stubs = Array(MethodStub).new
-      @expectations = Array(MethodStub).new
-      @negative_expectations = Array(MethodStub).new
-      @calls = Array(MethodStub).new
+      @stubs = MethodStubCollection.new
+      @expectations = MethodStubCollection.new
+      @negative_expectations = MethodStubCollection.new
+      @calls = MethodStubCollection.new
       Mock.register self
       add_stubs(stubs) if stubs
     end
@@ -35,10 +35,10 @@ module Mock
 
     def check_expectations
       @expectations.each do |expectation|
-        @calls.find { |call| expectation.matches?(call) }.should CallExpectation.new(expectation)
+        @calls.should HaveCalledExpectation.new(expectation)
       end
       @negative_expectations.each do |expectation|
-        @calls.find { |call| expectation.matches?(call) }.should_not CallExpectation.new(expectation)
+        @calls.should_not HaveCalledExpectation.new(expectation)
       end
     end
 
@@ -49,7 +49,7 @@ module Mock
         arguments = Arguments.new({{args}})
       {% end %}
 
-      if stub = @stubs.find { |stub| stub.matches?(:{{name}}, arguments) }
+      if stub = @stubs.find(:{{name}}, arguments)
         @calls << MethodStub.new(:{{name}}).with(arguments)
         stub.value
       else
@@ -58,12 +58,12 @@ module Mock
     end
   end
 
-  class CallExpectation
+  class HaveCalledExpectation
     def initialize(@expectation)
     end
 
-    def match(call)
-      call && call.matches?(@expectation)
+    def match(calls)
+      calls.find(@expectation)
     end
 
     def failure_message

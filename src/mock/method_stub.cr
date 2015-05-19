@@ -23,14 +23,27 @@ module Mock
     def and_return(@value)
       self
     end
+  end
 
-    def matches?(method_name, arguments)
-      method_name == @method_name &&
-        (@arguments.nil? || arguments.nil? || arguments == @arguments)
+  class MethodStubCollection
+    def initialize
+      @stubs = [] of MethodStub
     end
 
-    def matches?(other : MethodStub)
-      matches?(other.method_name, other.arguments)
+    delegate :<<, @stubs
+
+    def each
+      @stubs.each { |s| yield s }
+    end
+
+    def find(stub : MethodStub)
+      find(stub.method_name, stub.arguments)
+    end
+
+    def find(method_name, arguments)
+      @stubs.find do |stub|
+        method_name == stub.method_name && (stub.arguments.nil? || arguments.nil? || arguments == stub.arguments)
+      end
     end
   end
 end
