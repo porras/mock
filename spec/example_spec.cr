@@ -8,6 +8,12 @@ describe Mock do
     my_instance.a_method.should eq("stubbed result")
   end
 
+  it "stubs a method's return value (short version)" do
+    my_instance = double(:my_object, { :a_method => "stubbed result" })
+
+    my_instance.a_method.should eq("stubbed result")
+  end
+
   it "filters by arguments" do
     my_instance = double()
     my_instance.stub(:a_method).with(123).and_return("123")

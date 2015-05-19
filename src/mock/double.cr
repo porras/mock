@@ -1,11 +1,18 @@
 module Mock
   class Double
-    def initialize
+    def initialize(@name = :double, stubs = nil)
       @stubs = Array(MethodStub).new
       @expectations = Array(MethodStub).new
       @negative_expectations = Array(MethodStub).new
       @calls = Array(MethodStub).new
       Mock.register self
+      add_stubs(stubs) if stubs
+    end
+
+    private def add_stubs(stubs)
+      stubs.each do |method_name, value|
+        stub(method_name).and_return(value)
+      end
     end
 
     def stub(method_name)
@@ -46,7 +53,7 @@ module Mock
         @calls << MethodStub.new(:{{name}}).with(arguments)
         stub.value
       else
-        raise UnexpectedCall.new("Unexpected call to #{{{name}}}")
+        raise UnexpectedCall.new("Unexpected call to #{{{name}}} on double #{@name.inspect}")
       end
     end
   end
