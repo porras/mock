@@ -1,4 +1,4 @@
-# Mock
+# Mock [![Build Status](https://travis-ci.org/porras/mock.svg?branch=master)](https://travis-ci.org/porras/mock)
 
 Mock is a doubles (stubs and mocks) library for [Crystal](http://crystal-lang.org/), inspired by the API of [rspec-mocks](https://github.com/rspec/rspec-mocks) (but it implements a small basic subset of it to the date).
 
