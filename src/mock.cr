@@ -21,11 +21,11 @@ module Mock
   end
 end
 
-def double(*args)
-  Mock::Double.new(*args)
-end
-
 module Spec::DSL
+  def double(*args)
+    Mock::Double.new(*args)
+  end
+
   def it(description, file = __FILE__, line = __LINE__)
     Mock.reset
     previous_def
