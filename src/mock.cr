@@ -25,10 +25,10 @@ def double(*args)
   Mock::Double.new(*args)
 end
 
-def it(description, file = __FILE__, line = __LINE__)
-  Mock.reset
-  previous_def(description, file, line) do
-    yield
+module Spec::DSL
+  def it(description, file = __FILE__, line = __LINE__)
+    Mock.reset
+    previous_def
     Mock.registry.each &.check_expectations
   end
 end
