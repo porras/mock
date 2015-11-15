@@ -34,7 +34,7 @@ describe Mock do
 
   it "stubbed explicitly without parameters matches only without parameters" do
     my_instance = Mock::Double.new
-    my_instance.stub(:a_method).with().and_return("stubbed result")
+    my_instance.stub(:a_method).with.and_return("stubbed result")
 
     my_instance.a_method.should eq("stubbed result")
 
@@ -109,7 +109,7 @@ describe Mock do
     my_instance.should_receive(:a_method_with_arguments)
     my_instance.should_not_receive(:a_method_with_arguments).with("bye")
 
-    expect_raises do
+    expect_raises(Spec::AssertionFailed) do
       my_instance.a_method_with_arguments("bye").should eq("whatever argument")
       my_instance.check_expectations # trick: this is what will be called later but we want to check here
     end
