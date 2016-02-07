@@ -4,13 +4,15 @@ Mock is a doubles (stubs and mocks) library for [Crystal](http://crystal-lang.or
 
 ## Installation
 
-Add it to `Projectfile`
+Add this to your application's shard.yml:
 
-```crystal
-deps do
-  github "porras/mock"
-end
+```yaml
+development_dependencies:
+  mock:
+    github: porras/mock
 ```
+
+You can now run `shards` to install it.
 
 ## Usage
 
